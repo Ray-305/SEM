@@ -1,0 +1,26 @@
+# Use the HolzingerSwineford1939 dataset to create a new model of textual speed with the variables x4, x5, and x6, which represent reading comprehension and understanding word meaning. x7, x8, and x9 represent speed counting and addition. 
+
+# Load the lavaan library
+library(lavaan)
+
+# Look at the dataset
+data(HolzingerSwineford1939)
+head(HolzingerSwineford1939[ , 7:15])
+
+# Define your model specification
+text.model <- 'textspeed =~ x4+x5+x6+x7+x8+x9'
+
+# Building Political Democracy Model
+
+# creating a model with one latent variable, named poldemo60, and four manifest variables- y1-y4.
+
+# Load the lavaan library
+library(lavaan)
+
+# Look at the dataset
+data(PoliticalDemocracy)
+head(PoliticalDemocracy)
+
+# Define your model specification
+politics.model <- 'poldemo60 =~ y1+y2+y3+y4'
+
