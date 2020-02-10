@@ -1,2 +1,2 @@
 # SEM
-Structural Equation Modelling using R
+Structural Equation Modeling using R
