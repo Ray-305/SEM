@@ -24,3 +24,70 @@ head(PoliticalDemocracy)
 # Define your model specification
 politics.model <- 'poldemo60 =~ y1+y2+y3+y4'
 
+# Analyzing the Text Speed Model
+
+# Load the lavaan library
+library(lavaan)
+
+# Load the dataset and define model
+data(HolzingerSwineford1939)
+text.model <- 'textspeed =~ x4 + x5 + x6 + x7 + x8 + x9'
+
+# Analyze the model with cfa()
+text.fit <- cfa(model=text.model, data= HolzingerSwineford1939)
+
+# Summarize the model
+
+summary(text.fit)
+
+# Model Assessment 
+
+## Examining Standardized Loadings to determine the strength of the relationship of the manifest variable(s) to the latent variable
+
+# Load the lavaan library
+library(lavaan)
+
+# Load the data and define model
+data(HolzingerSwineford1939)
+text.model <- 'textspeed =~ x4 + x5 + x6 + x7 + x8 + x9'
+
+# Analyze the model with cfa()
+text.fit <- cfa(model = text.model, data = HolzingerSwineford1939)
+
+# Summarize the model
+summary(text.fit, standardized = TRUE)
+
+# Exploring Fit Indices
+
+# Load the lavaan library
+library(lavaan)
+
+# Load the data and define model
+data(HolzingerSwineford1939)
+text.model <- 'textspeed =~ x4 + x5 + x6 + x7 + x8 + x9'
+
+# Analyze the model with cfa()
+text.fit <- cfa(model = text.model, data = HolzingerSwineford1939)
+
+# Summarize the model
+summary(text.fit, fit.measures = TRUE)
+
+# for political democracy
+
+# Load the lavaan library
+library(lavaan)
+
+# Load the data and define model
+data(PoliticalDemocracy)
+politics.model <- 'poldemo60 =~ y1 + y2 + y3 + y4'
+
+# Analyze the model with cfa()
+politics.fit <- cfa(model = politics.model, data = PoliticalDemocracy)
+
+# Summarize the model
+
+summary(politics.fit,standardized = TRUE, fit.measures = TRUE )
+
+
+
+
