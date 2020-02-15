@@ -1,0 +1,87 @@
+# Analyzing a Latent Heywood Case
+# A local animal shelter has designed a survey to measure the impact of their Adopt Me program. 
+# Viewers rated each dog's picture, background story, and other characteristics to indicate the "adoptableness" of each animal.
+
+# Look at the data
+head(adoptsurvey)
+
+# Build the model
+adopt.model <- 'goodstory =~ pictures + background + loveskids
+inperson =~ energy + wagstail + playful'
+
+# Analyze the model
+adopt.fit <- cfa(model = adopt.model, data = adoptsurvey)
+
+# Fixing the Latent Heywood Model
+# In the last model, the adoption survey had a correlation > 1 on the latent variable. 
+# fixing the Heywood model by collapsing the two latent variables into one latent variable.
+
+# Look at the data
+head(adoptsurvey)
+
+# Edit the original model 
+adopt.model <- 'goodstory =~ pictures + background + loveskids + energy + wagstail + playful'
+
+# Analyze the model
+adopt.fit <- cfa(model =adopt.model , data = adoptsurvey)
+
+# Look for Heywood cases
+summary(adopt.fit, standardized = TRUE, fit.measures = TRUE)
+
+# Analyze a Manifest Heywood Case
+
+# Build the model
+adopt.model <- 'goodstory =~ pictures + background + loveskids
+inperson =~ energy + wagstail + playful'
+
+# Analyze the model and include the data argument
+adopt.fit <- cfa(adopt.model, data=adoptsurvey)
+
+# Summarize the model to view the negative variances
+summary(adopt.fit, standardized = TRUE,
+fit.measures = TRUE,
+rsquare = TRUE)
+
+# Summarize the model to view the negative variances
+summary(adopt.fit, standardized = TRUE, fit.measures = TRUE, rsquare = TRUE)
+
+# View the variance of the problem manifest variable
+var(adoptsurvey$wagstail)
+
+# Update the model using 5 decimal places
+adopt.model2 <- 'goodstory =~ pictures + background + loveskids
+inperson =~ energy + wagstail + playful
+wagstail ~~ 23.07446 * wagstail'
+
+# Analyze and summarize the updated model
+adopt.fit2 <- cfa(model = adopt.model2, data = adoptsurvey)
+
+# Summarize the model to view the negative variances
+summary(adopt.fit2, standardized = TRUE, fit.measures = TRUE, rsquare= TRUE)
+
+#Load the semPlot library
+library(semPlot)
+
+# Create a default picture
+semPaths(adopt.fit)
+
+# Load the semPlot library
+library(semPlot)
+
+# Update the default picture
+semPaths(object = adopt.fit, 
+         layout= "tree",
+         rotation= 2)
+         
+# Load the library
+library(semPlot)
+
+# Update the default picture
+semPaths(object = adopt.fit,
+         layout = "tree",
+         rotation = 2,
+         whatLabels="std",
+         edge.label.cex = 1,
+         what = "std"
+, edge.color = "blue")
+
