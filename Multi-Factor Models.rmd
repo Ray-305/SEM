@@ -1,0 +1,146 @@
+# Create a Zero df Model
+
+# Create your text model specification
+text.model <- 'text=~ x4 + x5 + x6'
+
+# Analyze the model and include data argument
+text.fit <- cfa(model = text.model,data = HolzingerSwineford1939)
+
+# Summarize the model
+summary(text.fit, standardized = TRUE, fit.measures = TRUE)
+
+# This model has zero degrees of freedom, which means we need to fix the model identification.
+
+# Fixing the Zero df Model
+
+# Update the model specification by setting two paths to the label a
+text.model <- 'text =~ x4 + a*x5 + a*x6'
+
+# Analyze the model
+text.fit <- cfa(model = text.model, data = HolzingerSwineford1939)
+
+# Summarize the model
+summary(text.fit, standardized = TRUE, fit.measures = TRUE)
+
+# Our text model is now identified with one degree of freedom and two equal parameter estimates for x5 and x6.
+
+# Creating two-factor models
+
+# Create a two-factor model of text and speed variables
+twofactor.model <- 'text =~ x4 + x5 + x6
+speed =~ x7 + x8 + x9'
+
+# Summarize the Multi-Factor Model
+
+# Previous one-factor model output
+summary(text.fit, standardized = TRUE, fit.measures = TRUE)
+
+# Two-factor model specification
+twofactor.model <- 'text =~ x4 + x5 + x6
+speed =~ x7 + x8 + x9'
+
+# Use cfa() to analyze the model and include data argument
+twofactor.fit <- cfa(model = twofactor.model,
+data = HolzingerSwineford1939)
+
+# Use summary() to view the fitted model
+summary(twofactor.fit, standardized = TRUE, fit.measures = TRUE)
+
+# Three-Factor Model with Zero Correlation
+
+# Using the Eysenck Personality Inventory dataset from the psych library to create a three-factor model of personality. 
+# This inventory includes 57 questions that measure extraversion, neuroticism, and lying.
+
+# Load the library and data
+library(psych)
+data(epi)
+
+# Specify a three-factor model with one correlation set to zero
+epi.model <- 'extraversion =~ V1 + V3 + V5 + V8
+neuroticism =~ V2 + V4 + V7 + V9
+lying =~ V6 + V12 + V18 + V24
+extraversion~~ 0*neuroticism'
+
+# Run the model
+epi.fit <- cfa(model = epi.model, data = epi)
+
+summary(epi.fit, standardized = TRUE, fit.measures = TRUE)
+
+# Creating a Direct Path
+
+# Load the library and data
+library(psych)
+data(epi)
+
+# Specify a three-factor model where lying is predicted by neuroticism
+epi.model <- 'extraversion =~ V1 + V3 + V5 + V8
+neuroticism =~ V2 + V4 + V7 + V9
+lying =~ V6 + V12 + V18 + V24
+lying ~ neuroticism'
+
+# Run the model
+epi.fit <- cfa(model = epi.model, data = epi)
+
+# Examine the output 
+summary(epi.fit, standardized = TRUE, fit.measures = TRUE)
+
+# Checking Model Variance
+
+# Run the model
+epi.fit <- cfa(model = epi.model, data = epi)
+
+# Examine the output 
+summary(epi.fit, standardized = TRUE, fit.measures = TRUE)
+
+# Calculate the variance of V1
+var(epi$V1)
+
+# Examining Modification Indices
+
+# Original model summary
+summary(epi.fit, standardized = TRUE, fit.measures = TRUE)
+
+# Examine the modification indices
+modificationindices(epi.fit, sort = TRUE)
+
+# Edit the model specification
+epi.model2 <- 'extraversion =~ V1 + V3 + V5 + V8
+neuroticism =~ V2 + V4 + V7 + V9
+lying =~ V6 + V12 + V18 + V24
+neuroticism =~ V3'
+
+# Reanalyze the model
+epi.fit <- cfa(model = epi.model2, data = epi)
+
+# Summarize the updated model
+summary(epi.fit, standardized = TRUE, fit.measures = TRUE)
+
+# Compare Two Models
+
+# Analyze the original model
+epi.fit <- cfa(model = epi.model, data = epi)
+
+# Analyze the updated model
+epi.fit1 <- cfa(model = epi.model1, data = epi)
+
+# Compare those models
+anova(epi.fit, epi.fit1)
+
+# Select Specific Fit Indices
+# Models can be compared using the AIC or ECVI fit indices, rather than the anova() function. 
+# These fit indices are very useful if your models include different manifest variables. When comparing sets of AIC or ECVI values, the best model would have the smallest fit index.
+
+
+# Analyze the original model
+epi.fit <- cfa(model = epi.model, data = epi)
+
+# Find the fit indices for the original model
+fitmeasures(epi.fit, c("aic","ecvi"))
+
+# Analyze the updated model
+epi.fit1 <- cfa(model = epi.model1, data = epi)
+
+# Find the fit indices for the updated model
+fitmeasures(epi.fit1, c("aic","ecvi"))
+
+
